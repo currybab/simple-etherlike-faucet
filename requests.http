@@ -1,0 +1,14 @@
+POST http://localhost:9091
+Content-Type: application/json
+
+{
+    "walletAddress": "0xc22FdaF04796bFD1D20eDf06ffe4c9a4707d2956"
+}
+
+###
+
+GET http://localhost:9091/0xc22FdaF04796bFD1D20eDf06ffe4c9a4707d2956
+
+###
+
+GET http://localhost:9091/ping

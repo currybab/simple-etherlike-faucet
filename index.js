@@ -62,8 +62,14 @@ app.post('/', async (req, res) => {
         if (await checkAddress(walletAddress) > 0) {
             throw new Error('WAIT_TIME')
         }
+        const working = await db.get('working_' + walletAddress).catch(() => null);
+        if (working) {
+            throw new Error('WORKING');
+        }
+        await db.put('working_' + walletAddress, '1');
         const receipt = await sendEth(walletAddress, process.env.AMOUNT || '0.001');
         await db.put(walletAddress, new Date().getTime().toString());
+        await db.del('working_' + walletAddress);
         res.json(true);
     } catch(err) {
         res.status(500).json({ message: err?.code || err?.message || 'UNKNOWN_ERROR' });
